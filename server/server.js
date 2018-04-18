@@ -136,7 +136,8 @@ app.post("/users", (req, res) => {
 
     let user = new User(body);
 
-    user.save()
+    user
+        .save()
         .then(() => {
             return user.generateAuthToken();
         })
