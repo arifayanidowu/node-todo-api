@@ -61,7 +61,7 @@ UserSchema.statics.findByToken = function(token) {
     try {
         decoded = jwt.verify(token, "abc123");
     } catch (err) {
-        return new Promise.reject();
+        return Promise.reject();
         //return Promise.reject();
     };
 
@@ -88,8 +88,8 @@ UserSchema.pre('save', function(next) {
     }
 });
 
-let User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = {
-    User
+    "User": User
 };
