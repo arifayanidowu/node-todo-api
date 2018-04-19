@@ -20,25 +20,20 @@ app.post("/todos", (req, res) => {
         text: req.body.text
     });
 
-    todo.save().then(
-        doc => {
-            res.status(200).send(doc);
-        },
-        err => {
-            res.status(400).send(err);
-        }
-    );
+    todo.save().then((todos) => {
+        res.status(200).send(todos);
+    }, (e) => {
+        res.status(400).send(e);
+    });
 });
 
 app.get("/todos", (req, res) => {
-    Todo.find().then(
-        todos => {
+    Todo.find().then((todos) => {
             res.send({ todos });
         },
         err => {
             res.status(400).send(err);
-        }
-    );
+        });
 });
 
 app.get("/todos/:id", (req, res) => {
@@ -136,8 +131,7 @@ app.post("/users", (req, res) => {
 
     let user = new User(body);
 
-    user
-        .save()
+    user.save()
         .then(() => {
             return user.generateAuthToken();
         })
@@ -161,7 +155,7 @@ app.get("/users/me", (req, res, next) => {
             }
             req.user = user;
             req.token = token;
-            res.send(req.user);
+            res.send(user);
 
             next();
         })

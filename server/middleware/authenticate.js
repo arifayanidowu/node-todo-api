@@ -10,6 +10,7 @@ let authenticate = function(req, res, next) {
             }
             req.user = user;
             req.token = token;
+            //res.send(req.user);
             next();
         })
         .catch(e => {
