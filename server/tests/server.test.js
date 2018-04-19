@@ -203,8 +203,8 @@ describe('PATCH /todos/:id', () => {
             })
             .end(done);
     });
-}); */
-
+});
+ */
 describe('POST /users', () => {
     it('should create a user', (done) => {
         let email = 'example@example.com';

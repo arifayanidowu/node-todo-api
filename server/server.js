@@ -131,7 +131,8 @@ app.post("/users", (req, res) => {
 
     let user = new User(body);
 
-    user.save()
+    user
+        .save()
         .then(() => {
             return user.generateAuthToken();
         })
@@ -155,13 +156,26 @@ app.get("/users/me", (req, res, next) => {
             }
             req.user = user;
             req.token = token;
-            res.send(user);
+            res.send(req.user);
 
             next();
         })
         .catch(e => {
             res.status(401).send(e);
         });
+
+});
+
+app.post('/users/login', (req, res) => {
+    let body = _.pick(req.body, ["email", "password"]);
+
+    User.findByCredentials(body.email, body.password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header("x-auth", token).send(user);
+        });
+    }).catch((e) => {
+        res.status(400).send();
+    })
 
 });
 
