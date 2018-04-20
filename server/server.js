@@ -8,7 +8,7 @@ const { ObjectID } = require("mongodb");
 let { mongoose } = require("./db/mongoose");
 let { Todo } = require("./models/todo");
 let { User } = require("./models/user");
-let authenticate = require("./middleware/authenticate");
+let { authenticate } = require("./middleware/authenticate");
 
 const app = express();
 const port = process.env.PORT;
@@ -145,25 +145,16 @@ app.post("/users", (req, res) => {
 });
 
 // Bugs: authentication failed, 404: not found returned instead of 401: request token.
-app.get("/users/me", (req, res, next) => {
+app.get("/users/me", authenticate, (req, res) => {
+    res.send(req.user);
+});
 
-    let token = req.header("x-auth");
-
-    User.findByToken(token)
-        .then(user => {
-            if (!user) {
-                return Promise.reject();
-            }
-            req.user = user;
-            req.token = token;
-            res.send(req.user);
-
-            next();
-        })
-        .catch(e => {
-            res.status(401).send(e);
-        });
-
+app.delete('/users/me/token', authenticate, (req, res) => {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send();
+    }, err => {
+        res.status(400).send();
+    });
 });
 
 app.post('/users/login', (req, res) => {

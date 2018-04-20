@@ -180,15 +180,15 @@ describe('PATCH /todos/:id', () => {
     });
 });
 
-/* describe('GET /users/me', () => {
+describe('GET /users/me', () => {
     it('should return a user if authenticated', (done) => {
         request(app)
             .get('/users/me')
-            .set('x-auth', user[0].tokens[0].token)
+            .set('x-auth', user.tokens[0].token)
             .expect(200)
             .expect((res) => {
-                expect(res.body._id).toBe(user[0]._id.toHexString());
-                expect(res.body.email).toBe(user[0].email);
+                expect(res.body._id).toBe(user._id.toHexString());
+                expect(res.body.email).toBe(user.email);
             })
             .end(done);
 
@@ -204,7 +204,7 @@ describe('PATCH /todos/:id', () => {
             .end(done);
     });
 });
- */
+
 describe('POST /users', () => {
     it('should create a user', (done) => {
         let email = 'example@example.com';

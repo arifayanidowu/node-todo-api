@@ -54,6 +54,16 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
+UserSchema.methods.removeToken = function(token) {
+    let user = this;
+
+    return user.update({
+        $pull: {
+            tokens: { token }
+        }
+    });
+}
+
 UserSchema.statics.findByToken = function(token) {
     let User = this;
     let decoded;
@@ -62,7 +72,6 @@ UserSchema.statics.findByToken = function(token) {
         decoded = jwt.verify(token, "abc123");
     } catch (err) {
         return Promise.reject();
-        //return Promise.reject();
     };
 
 

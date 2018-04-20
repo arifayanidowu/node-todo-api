@@ -10,13 +10,11 @@ let authenticate = function(req, res, next) {
             }
             req.user = user;
             req.token = token;
-            //res.send(req.user);
             next();
         })
         .catch(e => {
-            res.status(401).send(e);
+            res.status(401).send();
         });
-
 };
 
 module.exports = { authenticate };
