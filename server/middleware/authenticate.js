@@ -1,7 +1,7 @@
 const { User } = require('./../models/user');
 
-let authenticate = function(req, res, next) {
-    let token = req.header("x-auth");
+let authenticate = (req, res, next) => {
+    let token = req.header('x-auth');
 
     User.findByToken(token)
         .then((user) => {
@@ -12,7 +12,7 @@ let authenticate = function(req, res, next) {
             req.token = token;
             next();
         })
-        .catch(e => {
+        .catch((e) => {
             res.status(401).send();
         });
 };
