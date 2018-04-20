@@ -4,7 +4,7 @@ let authenticate = function(req, res, next) {
     let token = req.header("x-auth");
 
     User.findByToken(token)
-        .then(user => {
+        .then((user) => {
             if (!user) {
                 return Promise.reject();
             }
